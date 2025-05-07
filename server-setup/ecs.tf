@@ -3,7 +3,7 @@ resource "aws_ecs_cluster" "main" {
 }
 
 resource "aws_ecs_task_definition" "main-task-definition" {
-  family                   = "ecs-server-task"
+  family                   = "ecs-server-task-${var.server_name}"
   cpu                      = "256"
   memory                   = "512"
   network_mode             = "awsvpc"
@@ -35,14 +35,14 @@ resource "aws_ecs_service" "ecs-service" {
   desired_count   = 1
 
   network_configuration {
-    subnets         = [aws_subnet.subnet.id]
+    subnets         = [aws_subnet.subnet_a.id, aws_subnet.subnet_b.id]
     assign_public_ip = true
     security_groups = [aws_security_group.ecs_sg.id]
   }
 
    load_balancer {
     target_group_arn = aws_lb_target_group.ecs_tg.arn
-    container_name   = "app"
+    container_name   = var.server_name
     container_port   = var.container_port
   }
 

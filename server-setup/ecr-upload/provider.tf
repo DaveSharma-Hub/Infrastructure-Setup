@@ -15,7 +15,7 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    bucket         = "custom-infrastructure-setup-release-bucket-test"
+    bucket         = "custom-infrastructure-setup-release-bucket-testing"
     key            = "terraform/states/ecrrelease.tfstate"
     region         = "us-east-1"
   }

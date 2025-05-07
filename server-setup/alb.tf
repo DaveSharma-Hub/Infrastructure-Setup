@@ -25,15 +25,15 @@ resource "aws_security_group" "alb_sg" {
 
 
 resource "aws_lb" "ecs_alb" {
-  name               = "ecs-alb"
+  name               = "ecs-alb-${var.server_name}"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_sg.id]
-  subnets            = [aws_subnet.subnet.id]
+  subnets            = [aws_subnet.subnet_a.id, aws_subnet.subnet_b.id]
 }
 
 resource "aws_lb_target_group" "ecs_tg" {
-  name        = "ecs-tg"
+  name        = "ecs-tg-${var.server_name}"
   port        = var.container_port
   protocol    = "HTTP"
   target_type = "ip"
