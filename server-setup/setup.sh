@@ -9,6 +9,23 @@ GITHUB_LINK=$6
 DOCKERFILE_PATH=$7
 CONTAINER_PORT=$8
 
+function check_valid_argument(){
+    ARGUMENT=$1
+    if [[ -z "$ARGUMENT" ]];then
+        echo "Invalid argument $ARGUMENT"
+        exit 1
+    fi
+}
+
+check_valid_argument "$AWS_ACCOUNT_ID"
+check_valid_argument "$AWS_REGION"
+check_valid_argument "$YOUR_ACCESS_KEY"
+check_valid_argument "$YOUR_SECRET_KEY"
+check_valid_argument "$SERVER_NAME"
+check_valid_argument "$GITHUB_LINK"
+check_valid_argument "$DOCKERFILE_PATH"
+check_valid_argument "$CONTAINER_PORT"
+
 RELEASE_BUCKET="custom-infrastructure-setup-release-bucket-$SERVER_NAME"
 
 aws configure set aws_access_key_id $YOUR_ACCESS_KEY && \
@@ -33,9 +50,9 @@ terraform apply -auto-approve \
     -var="aws_region=$AWS_REGION"
 
 popd
-# git clone $GITHUB_LINK ./server
-# pushd server/$DOCKERFILE_PATH
-pushd $DOCKERFILE_PATH
+git clone $GITHUB_LINK ./server
+pushd server/$DOCKERFILE_PATH
+# pushd $DOCKERFILE_PATH
 
 aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
 
