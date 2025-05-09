@@ -2,6 +2,8 @@
 Server deployment infrastructure to run the desired server-side application. Will create an ecs fargate task attached with an application load balancer with an exposed HTTP DNS. Provide your aws account id, desired deployment region, transient access and secret key, unique server name, github link with the path to the docker image and the container port to expose the backend application apis. 
 
 ## How to run
+Create an IAM roles with the following permissions:
+
 
 ### Using Dockerfile to run
 
