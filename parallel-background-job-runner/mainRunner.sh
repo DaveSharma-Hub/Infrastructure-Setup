@@ -27,9 +27,9 @@ function checkCondition(){
     TOTAL_LENGTH=$2
     SUB_LENGTH=$3
     if [ "$INDEX" -lt "$SUB_LENGTH" ] &&  [ "$INDEX" -lt "$TOTAL_LENGTH" ]; then
-        echo "TRUE"
+        echo 1
     else
-        echo "FALSE"
+        echo 0
     fi
 }
 
@@ -43,7 +43,7 @@ function mainRunner(){
     for ((i=0; i<$LEN;)); do
         echo "$i"
         SUB_LENGTH=$((i+MAX_PARALLEL_RUNNERS))
-        while [ "$(checkCondition $i $LEN $SUB_LENGTH)" == "TRUE" ]; do 
+        while [ $(checkCondition $i $LEN $SUB_LENGTH) -eq 1 ]; do 
             runJob "$i" &
             ((i++))
         done
